@@ -1,1 +1,0 @@
-# nextjs-hello-world-app
