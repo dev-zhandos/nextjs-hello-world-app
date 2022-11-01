@@ -52,33 +52,36 @@ pipeline {
     }
     post {
             success {
-                curl --request POST \
-                    --url https://api.pagerduty.com/incidents \
-                    --header 'Accept: application/vnd.pagerduty+json;version=2' \
-                    --header "Authorization: Token token=${env.PAGERDUTY_TOKEN}" \
-                    --header 'Content-Type: application/json' \
-                    --header "From: ${env.PAGERDUTY_EMAIL}" \
-                    --data '{
-                    "incident": {
-                        "type": "incident",
-                        "title": "Jenkins",
-                        "service": {
-                        "id": "P7OU3JP",
-                        "type": "service_reference"
-                        },
-                        "priority": {
-                        "id": "P53ZZH5",
-                        "type": "priority_reference"
-                        },
-                        "urgency": "high",
-                        "incident_key": "baf7cf21b1da41b4b0221008339ff357",
-                        "body": {
-                        "type": "incident_body",
-                        "details": "Build succesful"
-                        }
-                      }
-                    }'
+                script {
+                      curl --request POST \
+                        --url https://api.pagerduty.com/incidents \
+                        --header 'Accept: application/vnd.pagerduty+json;version=2' \
+                        --header "Authorization: Token token=${env.PAGERDUTY_TOKEN}" \
+                        --header 'Content-Type: application/json' \
+                        --header "From: ${env.PAGERDUTY_EMAIL}" \
+                        --data '{
+                        "incident": {
+                            "type": "incident",
+                            "title": "Jenkins",
+                            "service": {
+                            "id": "P7OU3JP",
+                            "type": "service_reference"
+                            },
+                            "priority": {
+                            "id": "P53ZZH5",
+                            "type": "priority_reference"
+                            },
+                            "urgency": "high",
+                            "incident_key": "baf7cf21b1da41b4b0221008339ff357",
+                            "body": {
+                            "type": "incident_body",
+                            "details": "Build succesful"
+                            }
+                          }
+                        }'
 
+                }
+                
             }
             
         }
