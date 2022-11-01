@@ -1,0 +1,32 @@
+plugins {
+  //inlude the nodeJS plugin to execute nodejs and npm tasks
+  id "com.github.node-gradle.node" version "3.1.1"
+}
+
+node {
+	download = true
+	version = "16.17.0"
+	npmVersion = "8.15.0"
+}
+
+//declare a build task
+task build(type: NpmTask) {
+  dependsOn npmInstall
+  args = ['run', 'build']
+  inputs.files('package.json', 'package-lock.json',  'tsconfig.json')
+  inputs.dir('.')
+  inputs.dir(fileTree("node_modules").exclude(".cache"))
+  outputs.dir('dist')
+  zip
+}
+
+//declare a task to create a zip of the app
+task zip(type: Zip) {
+    from '.'
+    include "*"
+	include "pages/**"
+	include "app/**"
+	include "node_modules/**"
+    archiveName 'nextjs-app.zip'
+	destinationDir(file("dist"))
+}

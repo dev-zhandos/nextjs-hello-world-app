@@ -44,7 +44,7 @@ pipeline {
             steps {
                 input 'Deploy to Production?'
                 milestone(1)
-                withKubeConfig([credentialsId: 'kubeconfig', serverUrl: 'https://api.k8s.my-company.com']) {
+                withKubeConfig([credentialsId: 'kubeconfig', serverUrl: "${env.K8S_URL}"]) {
                    sh 'kubectl apply -f nextjs-app-kube.yaml'
                 }
             }
