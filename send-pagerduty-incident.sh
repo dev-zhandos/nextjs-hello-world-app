@@ -22,4 +22,4 @@ curl --request POST \
                 "details": "'"$5 build of $6 job was $4. See $3"'"
                 }
             }
-}'\''
+}'\'
