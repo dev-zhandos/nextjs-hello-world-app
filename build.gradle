@@ -17,7 +17,6 @@ task build(type: NpmTask) {
   inputs.dir('.')
   inputs.dir(fileTree("node_modules").exclude(".cache"))
   outputs.dir('dist')
-  zip
 }
 
 //declare a task to create a zip of the app
