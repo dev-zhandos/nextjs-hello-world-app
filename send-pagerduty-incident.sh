@@ -1,11 +1,11 @@
-
+DATA = 
 curl --request POST \
     --url https://api.pagerduty.com/incidents \
     --header 'Accept: application/vnd.pagerduty+json;version=2' \
     --header "Authorization: Token token=$1" \
     --header 'Content-Type: application/json' \
     --header "From: $2" \
-    --data '{
+    --data \''{
             "incident": {
                 "type": "incident",
                 "title": "Jenkins CI/CD build failure",
@@ -20,7 +20,7 @@ curl --request POST \
                 "urgency": "high",
                 "body": {
                 "type": "incident_body",
-                "details": "$5 build of $6 job was $4. See $3"
+                "details": "'"$5 build of $6 job was $4. See $3"'"
                 }
             }
-}'
+}'\''
