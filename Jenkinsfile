@@ -52,8 +52,7 @@ pipeline {
         }
     }
     post {
-            always {
-                PAGERDUTY_TOKEN = 
+            failure {
                 sh "bash send-pagerduty-incident.sh ${env.PAGERDUTY_TOKEN} ${env.PAGERDUTY_EMAIL} ${BUILD_URL} ${currentBuild.currentResult} ${BUILD_NUMBER} ${JOB_NAME}"
                                 
             }
