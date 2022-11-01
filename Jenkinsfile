@@ -46,7 +46,8 @@ pipeline {
                 input 'Deploy to Production?'
                 milestone(1)
                 withKubeConfig([credentialsId: 'kubeconfig', serverUrl: "${env.KUBE_MASTER_IP}"]) {
-                   sh 'kubectl --kubeconfig /home/cloud_user/.kube/config apply -f nextjs-app-kube.yaml'
+                   sh "echo ${env.KUBE_MASTER_IP}"
+                   sh 'kubectl apply -f nextjs-app-kube.yaml'
                 }
             }
         }
