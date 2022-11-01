@@ -26,6 +26,7 @@ task zip(type: Zip) {
 	include "pages/**"
 	include "app/**"
 	include "node_modules/**"
+  include ".next/**"
     archiveName 'nextjs-app.zip'
 	destinationDir(file("dist"))
 }
