@@ -49,14 +49,15 @@ pipeline {
                 }
             }
         }
-        post {
+    }
+    post {
             success {
                 curl --request POST \
                     --url https://api.pagerduty.com/incidents \
                     --header 'Accept: application/vnd.pagerduty+json;version=2' \
-                    --header 'Authorization: Token token=e+z18LNzuQUPP5t3K7FQ' \
+                    --header "Authorization: Token token=${env.PAGERDUTY_TOKEN}" \
                     --header 'Content-Type: application/json' \
-                    --header 'From: cdvoykulemiqoywdho@tmmwj.net' \
+                    --header "From: ${env.PAGERDUTY_EMAIL}" \
                     --data '{
                     "incident": {
                         "type": "incident",
@@ -81,5 +82,4 @@ pipeline {
             }
             
         }
-    }
 }
