@@ -1,7 +1,7 @@
-FROM node:carbon
+FROM node:alpine
 ENV NODE_ENV=production
 
-RUN apk add curl
+RUN apk --no-cache add curl
 
 WORKDIR /app
 
