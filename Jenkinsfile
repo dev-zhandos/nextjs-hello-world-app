@@ -2,12 +2,13 @@ pipeline {
     agent any
     environment {
         DOCKER_IMAGE_NAME = "zhandosusen/nextjs-hello-world-app"
+        PAGERDUTY_TOKEN = credentials('pagerduty_token')
     }
     stages {
         stage('Build') {
             steps {
                 echo 'Running build automation'
-                sh './gradlew build --no-daemon'
+                sh './gradlew build1231 --no-daemon'
                 sh './gradlew zip --no-daemon'
                 archiveArtifacts artifacts: 'dist/nextjs-app.zip'
             }
@@ -51,37 +52,10 @@ pipeline {
         }
     }
     post {
-            success {
-                script {
-                      curl --request POST \
-                        --url https://api.pagerduty.com/incidents \
-                        --header 'Accept: application/vnd.pagerduty+json;version=2' \
-                        --header "Authorization: Token token=${env.PAGERDUTY_TOKEN}" \
-                        --header 'Content-Type: application/json' \
-                        --header "From: ${env.PAGERDUTY_EMAIL}" \
-                        --data '{
-                        "incident": {
-                            "type": "incident",
-                            "title": "Jenkins",
-                            "service": {
-                            "id": "P7OU3JP",
-                            "type": "service_reference"
-                            },
-                            "priority": {
-                            "id": "P53ZZH5",
-                            "type": "priority_reference"
-                            },
-                            "urgency": "high",
-                            "incident_key": "baf7cf21b1da41b4b0221008339ff357",
-                            "body": {
-                            "type": "incident_body",
-                            "details": "Build succesful"
-                            }
-                          }
-                        }'
-
-                }
-                
+            always {
+                PAGERDUTY_TOKEN = 
+                sh "bash send-pagerduty-incident.sh ${env.PAGERDUTY_TOKEN} ${env.PAGERDUTY_EMAIL} ${BUILD_URL} ${currentBuild.currentResult} ${BUILD_NUMBER} ${JOB_NAME}"
+                                
             }
             
         }
